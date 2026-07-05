@@ -1,0 +1,20 @@
+/* styles.css */
+
+.container {
+    display: flex;
+}
+
+.subcontainer {
+    display: flex;
+}
+
+.row {
+    height: 50px;
+    background-color: blue;
+}
+
+.gridbox {
+    height: 50px;
+    width: 50px;
+    background-color: blue;
+}
