@@ -2,19 +2,12 @@
 
 .container {
     display: flex;
-}
-
-.subcontainer {
-    display: flex;
-}
-
-.row {
-    height: 50px;
-    background-color: blue;
+    border: 1px solid black;
 }
 
 .gridbox {
-    height: 50px;
-    width: 50px;
-    background-color: blue;
+    height: 20px;
+    width: 20px;
+    background-color: white;
+    border: 1px solid white;
 }

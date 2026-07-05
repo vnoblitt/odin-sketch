@@ -12,7 +12,7 @@ function clearGrid(gridSize) {
     
     for (let i = 0; i < gridSize; i++) {
         const row = document.querySelector(".row");
-        document.removeChild(row);
+        container.removeChild(row);
     }
     
     createGrid(gridSize)
