@@ -11,6 +11,11 @@ const DEFAULT_PIXEL_SIZE = resizePixel(DEFAULT_BOXES);
 let boxes = DEFAULT_BOXES;
 let pixelSize = DEFAULT_PIXEL_SIZE;
 
+document.addEventListener('dragstart', (event) => {
+    event.preventDefault();
+});
+
+
 clearButton.addEventListener("click", () => {
     clearGrid(boxes, boxes);
 })
@@ -19,10 +24,8 @@ resizeButton.addEventListener("click", () => {
     let newSize = prompt("New size: ");
     
     if (newSize > 100) {
-        console.log(newSize);
         newSize = resizeReprompt();
     }
-    console.log(newSize);
     let oldSize = boxes;
     boxes = newSize;
     pixelSize = resizePixel(boxes);
@@ -68,7 +71,7 @@ function createGrid(gridSize) {
                 paint = true;
                 gridBox.style.backgroundColor = "black";
             })
-            gridBox.addEventListener("pointerup", () => {
+            document.addEventListener("pointerup", () => {
                 paint = false;
             })
             gridBox.addEventListener("pointerenter", () => {
