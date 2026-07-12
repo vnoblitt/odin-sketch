@@ -3,6 +3,7 @@
 const container = document.querySelector(".container");
 const clearButton = document.getElementById("clear");
 const resizeButton = document.getElementById("resize");
+const rainbowButton = document.getElementById("rainbow");
 
 const CONTAINER_SIZE = 642;
 const DEFAULT_BOXES = 16;
@@ -10,14 +11,24 @@ const DEFAULT_PIXEL_SIZE = resizePixel(DEFAULT_BOXES);
 
 let boxes = DEFAULT_BOXES;
 let pixelSize = DEFAULT_PIXEL_SIZE;
+let color = "black";
+let oldColor = "white";
+let rainbow = false;
 
 document.addEventListener('dragstart', (event) => {
     event.preventDefault();
 });
 
+rainbowButton.addEventListener("click", () => {
+    rainbow = !rainbow;
+    getRainbow();
+})
 
 clearButton.addEventListener("click", () => {
-    clearGrid(boxes, boxes);
+    rainbow = false;
+    color = "black";
+    oldColor = "white";
+    clearGrid(boxes);
 })
 
 resizeButton.addEventListener("click", () => {
@@ -32,7 +43,11 @@ resizeButton.addEventListener("click", () => {
     clearGrid(boxes, oldSize);
 })
 
-function resizeReprompt(){
+function getRainbow() {
+    let rainbowColor = Math.floor(Math.random()*(16**6)).toString(16);
+    return `#${rainbowColor}`;
+}
+function resizeReprompt() {
     let newSize = prompt("Please enter a size less than 100: ")
     if (newSize > 100) {
         return resizeReprompt();
@@ -46,12 +61,9 @@ function resizePixel(boxes) {
     return str;
 }
 
-function clearGrid(gridSize, oldSize) {
+function clearGrid(gridSize) {
     
-    for (let i = 0; i < oldSize; i++) {
-        const row = document.querySelector(".row");
-        container.removeChild(row);
-    }
+    container.innerHTML = ""
     
     createGrid(gridSize)
 }
@@ -69,16 +81,34 @@ function createGrid(gridSize) {
             gridBox.style.height =  pixelSize;
             gridBox.addEventListener("pointerdown", () => {
                 paint = true;
-                gridBox.style.backgroundColor = "black";
+                gridBox.classList.add('painted');
+                if (rainbow) {
+                    color = getRainbow();
+                }
+                gridBox.style.backgroundColor = color;
             })
             document.addEventListener("pointerup", () => {
                 paint = false;
             })
             gridBox.addEventListener("pointerenter", () => {
+                oldColor = gridBox.style.backgroundColor;
+                gridBox.style.backgroundColor = color;
                 if (paint) {
-                    gridBox.style.backgroundColor = "black";
+                    gridBox.classList.add('painted');
+                }
+                // Hover effect resets color on leaving    
+                gridBox.addEventListener("pointerleave", () => {
+                    if(!paint) { 
+                        gridBox.style.backgroundColor = oldColor;
+                    }
+                })
+            })
+            gridBox.addEventListener("pointerleave", () => {
+                if (!paint && !gridBox.classList.contains('painted')) {
+                    gridBox.style.backgroundColor = oldColor;
                 }
             })
+
             row.appendChild(gridBox);
         }
     }
