@@ -92,6 +92,9 @@ function createGrid(gridSize) {
             })
             gridBox.addEventListener("pointerenter", () => {
                 oldColor = gridBox.style.backgroundColor;
+                if (rainbow) {
+                    color = getRainbow();
+                }
                 gridBox.style.backgroundColor = color;
                 if (paint) {
                     gridBox.classList.add('painted');
